@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # This script tells the story of /etc/passwd
 
 while IFS=: read -r username password user_id group_id user_id_info home_directory command; do
