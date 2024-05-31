@@ -2,4 +2,4 @@
 # This script parses the Apache log file, groups visitors by IP and HTTP status code, and displays the data
 # Format: OCCURRENCE_NUMBER IP HTTP_CODE
 
-awk '{key = $1 FS $9; count[$key]++;} END {for (key in count) printf("%d %s\n", count[key], key)}' apache-access.log
+awk '{print $1, $9}' apache-access.log | sort | uniq -c | sort -nr | awk '{print $1, $2, $3}'
