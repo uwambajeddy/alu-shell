@@ -17,7 +17,6 @@ start() {
   fi
   nohup "${RELPATH}" &> /dev/null &
   echo "$!" >| "${PIDFILE}"
-  echo "${PROGRAM} ${MESSAGES['start']}"
 }
 
 stop() {
@@ -25,24 +24,20 @@ stop() {
     echo "${PROGRAM} is not running"
     exit 1
   fi
-  kill -- "$(< "${PIDFILE}")" 2> /dev/null
-  if [ $? -eq 0 ]; then
+  trap '
+    trap RETURN
     rm -f -- "${PIDFILE}"
-    echo "${PROGRAM} ${MESSAGES['stop']}"
-  else
-    echo "Failed to stop ${PROGRAM}"
-    exit 1
-  fi
+  ' RETURN
+  kill -- "$(< "${PIDFILE}")" 2> /dev/null
 }
 
 restart() {
   stop
   start
-  echo "${PROGRAM} ${MESSAGES['restart']}"
 }
 
 if (( $# == 1 )) && [[ -v "MESSAGES[$1]" ]]; then
-  "$1"
+  "$1" && printf '%s %s\n' "${PROGRAM}" "${MESSAGES[$1]}"
 else
   printf 'Usage: %s {start|stop|restart}\n' "${PROGRAM}"
   exit 1
