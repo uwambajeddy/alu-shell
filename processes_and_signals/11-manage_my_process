@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script to manage the daemon
+# Script to manage daemon
 
 PROGRAM='manage_my_process'
 RELPATH="${0%/*}/${PROGRAM}"
@@ -15,8 +15,7 @@ start() {
     echo "${PROGRAM} is already running"
     exit 1
   fi
-  
-  "${RELPATH}" &
+  nohup "${RELPATH}" &> /dev/null &
   echo "$!" >| "${PIDFILE}"
 }
 
@@ -25,7 +24,6 @@ stop() {
     echo "${PROGRAM} is not running"
     exit 1
   fi
-  
   trap '
     trap RETURN
     rm -f -- "${PIDFILE}"
