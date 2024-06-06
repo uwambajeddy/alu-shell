@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# bash scripts that creates the file that conatins PID
+# bash script that creates a file with pid 
 sudo bash -c "echo $$ > /var/run/myscript.pid"
 
 # Define trap handlers for signals
