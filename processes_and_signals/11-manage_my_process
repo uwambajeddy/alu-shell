@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Script to manage daemon
 
 PROGRAM='manage_my_process'
