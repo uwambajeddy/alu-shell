@@ -2,7 +2,7 @@
 # Script to manage daemon
 
 PROGRAM='manage_my_process'
-RELPATH="${0%/*}/${PROGRAM}"
+RELPATH="$(dirname "$(readlink -f "$0")")/${PROGRAM}"
 PIDFILE="${PIDFILE:-/var/run/my_process.pid}"
 declare -A MESSAGES=( 
   ['start']='started'
@@ -36,8 +36,7 @@ restart() {
   start
 }
 
-if (( $# == 1 )) && [[ -v "MESSAGES[$1]" ]]
-then
+if (( $# == 1 )) && [[ -v "MESSAGES[$1]" ]]; then
   "$1" && printf '%s %s\n' "${PROGRAM}" "${MESSAGES[$1]}"
 else
   printf 'Usage: %s {start|stop|restart}\n' "${PROGRAM}"
